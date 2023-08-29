@@ -16,8 +16,7 @@ class MCQApp extends StatelessWidget {
   }
 }
 
-//Place the step 02 code below
-
+//Paste the step 02 code below
 class MCQScreen extends StatefulWidget {
   const MCQScreen({super.key});
 
@@ -25,6 +24,7 @@ class MCQScreen extends StatefulWidget {
   State<MCQScreen> createState() => _MCQScreenState();
 }
 
+//Replace following code in step 3
 class _MCQScreenState extends State<MCQScreen> {
   @override
   Widget build(BuildContext context) {
