@@ -33,28 +33,40 @@ class _MCQScreenState extends State<MCQScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            Container(
+                height: 120,
+                width: double.infinity,
+                color: Colors.greenAccent,
+                child: const Center(
+                    child: Text(
+                  "Question",
+                  textScaleFactor: 1.5,
+                ))),
             Expanded(
                 child: Container(
               color: Colors.amber,
               width: double.infinity,
-                  //Paste the step 05 code below
-
-
-
-
-
+              //Paste the step 05 code below
             )),
             Container(
                 height: 80,
                 width: double.infinity,
                 color: Colors.greenAccent,
+                //Paste the step 04 code below
                 child: ElevatedButton(
                   onPressed: () {
                     print("Button clicked");
                   },
-                  child: const Text('Check'),
-                )
-            )
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purpleAccent,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero),
+                  ),
+                  child: const Text(
+                    'Check',
+                    textScaleFactor: 1.5,
+                  ),
+                ))
           ],
         ),
       ),

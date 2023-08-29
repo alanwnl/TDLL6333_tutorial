@@ -33,15 +33,24 @@ class _MCQScreenState extends State<MCQScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            Container(
+                height: 120,
+                width: double.infinity,
+                color: Colors.greenAccent,
+                child: const Center(
+                    child: Text("Question",textScaleFactor: 1.5,)
+                )
+            ),
             Expanded(child: Container(
               color: Colors.amber,
               width: double.infinity,
+              //Paste the step 05 code below
             )),
             Container(
               height: 80,
               width: double.infinity,
               color: Colors.greenAccent,
-              //Paste step 04 code below
+              //Paste the step 04 code below
             )
           ],
         ),
