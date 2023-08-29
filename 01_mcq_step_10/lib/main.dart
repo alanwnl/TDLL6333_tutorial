@@ -71,7 +71,6 @@ class _MCQScreenState extends State<MCQScreen> {
     //Step 08a
     Question currentQuestion = _questions[0];
 
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("MCQ"),
@@ -218,11 +217,43 @@ class _MCQScreenState extends State<MCQScreen> {
                 width: double.infinity,
                 color: Colors.greenAccent,
                 child: ElevatedButton(
-                  //Step 08e
-                  onPressed: () {
-                    print(
-                        "Correct answer index is: ${currentQuestion.correctAnswerIndex}");
-                  },
+                  onPressed: _selectedOptionIndex == null
+                      ? null
+                      : () {
+                          print(
+                              "Correct answer index is: ${currentQuestion.correctAnswerIndex}");
+                          showModalBottomSheet(
+                              context: context,
+                              isDismissible: false,
+                              enableDrag: false,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: 200,
+                                  color: currentQuestion.correctAnswerIndex ==
+                                          _selectedOptionIndex
+                                      ? Colors.green
+                                      : Colors.red,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        currentQuestion.correctAnswerIndex ==
+                                                _selectedOptionIndex
+                                            ? const Text('Correct')
+                                            : Text(
+                                                'The correct answer is:${currentQuestion.options[currentQuestion.correctAnswerIndex]}'),
+                                        ElevatedButton(
+                                          child: const Text('Next Question'),
+                                          onPressed: () {},
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.purpleAccent,
                     shape: const RoundedRectangleBorder(
