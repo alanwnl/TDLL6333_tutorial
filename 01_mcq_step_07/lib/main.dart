@@ -69,6 +69,7 @@ class _MCQScreenState extends State<MCQScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //Step 08a
     return Scaffold(
       appBar: AppBar(
         title: const Text("MCQ"),
@@ -80,6 +81,7 @@ class _MCQScreenState extends State<MCQScreen> {
                 height: 120,
                 width: double.infinity,
                 color: Colors.greenAccent,
+                //Step 08b
                 child: const Center(
                     child: Text(
                   "Question",
@@ -99,6 +101,7 @@ class _MCQScreenState extends State<MCQScreen> {
                           child: SizedBox(
                             height: double.infinity,
                             child: ElevatedButton(
+                              //Step 08d
                               onPressed: () {
                                 print("Answer 0 clicked");
                               },
@@ -107,6 +110,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),
                               ),
+                              //Step 08c
                               child: const Text(
                                 'Answer 0',
                                 textScaleFactor: 1.5,
@@ -188,6 +192,7 @@ class _MCQScreenState extends State<MCQScreen> {
                 width: double.infinity,
                 color: Colors.greenAccent,
                 child: ElevatedButton(
+                  //Step 08e
                   onPressed: () {
                     print("Button clicked");
                   },
