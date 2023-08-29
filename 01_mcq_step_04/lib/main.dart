@@ -37,13 +37,17 @@ class _MCQScreenState extends State<MCQScreen> {
                 child: Container(
               color: Colors.amber,
               width: double.infinity,
-                  
+                  //Paste the step 05 code below
+
+
+
+
+
             )),
             Container(
                 height: 80,
                 width: double.infinity,
                 color: Colors.greenAccent,
-                //Paste the step 04 code below
                 child: ElevatedButton(
                   onPressed: () {
                     print("Button clicked");
