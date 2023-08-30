@@ -13,7 +13,6 @@ class MCQScreen extends StatefulWidget {
   State<MCQScreen> createState() => _MCQScreenState();
 }
 
-//Step 03
 class _MCQScreenState extends State<MCQScreen> {
   @override
   Widget build(BuildContext context) {
@@ -103,7 +102,8 @@ class _MCQScreenState extends State<MCQScreen> {
               ),
             )),
 
-            //Step 04
+            //Update the step 4 code below
+
             Container(
                 height: 80,
                 width: double.infinity,
@@ -114,6 +114,7 @@ class _MCQScreenState extends State<MCQScreen> {
                       : () {
                           print(
                               "Correct answer index is: ${currentQuestion.correctAnswerIndex}");
+                          appState.checkAnswer();
                           showModalBottomSheet(
                               context: context,
                               isDismissible: false,
@@ -121,8 +122,7 @@ class _MCQScreenState extends State<MCQScreen> {
                               builder: (BuildContext context) {
                                 return Container(
                                   height: 200,
-                                  color: currentQuestion.correctAnswerIndex ==
-                                          appState.selectedOptionIndex
+                                  color: appState.isCorrect
                                       ? Colors.green
                                       : Colors.red,
                                   child: Center(
@@ -131,8 +131,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                           MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        currentQuestion.correctAnswerIndex ==
-                                                appState.selectedOptionIndex
+                                        appState.isCorrect
                                             ? const Text('Correct',
                                                 textScaleFactor: 1.5)
                                             : Text(
@@ -141,27 +140,17 @@ class _MCQScreenState extends State<MCQScreen> {
                                         ElevatedButton(
                                           child: const Text('Next Question'),
                                           onPressed: () {
-                                            setState(() {
-                                              appState.selectedOptionIndex =
-                                                  null;
-                                              if (appState
-                                                      .currentQuestionIndex <
-                                                  appState.questions.length -
-                                                      1) {
-                                                appState.currentQuestionIndex++;
-                                                Navigator.pop(context);
-                                              } else {
-                                                appState.currentQuestionIndex =
-                                                    0;
-                                                Navigator.of(context)
-                                                  ..pop()
-                                                  ..push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const ResultScreen()),
-                                                  );
-                                              }
-                                            });
+                                            if (appState.nextQuestion()) {
+                                              Navigator.pop(context);
+                                            } else {
+                                              Navigator.of(context)
+                                                ..pop()
+                                                ..push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ResultScreen()),
+                                                );
+                                            }
                                           },
                                         ),
                                       ],
