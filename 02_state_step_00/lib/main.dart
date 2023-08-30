@@ -29,6 +29,7 @@ class MCQScreen extends StatefulWidget {
 class _MCQScreenState extends State<MCQScreen> {
   int? _selectedOptionIndex;
   int _currentQuestionIndex = 0;
+  bool correct = false;
 
   final List<Question> _questions = [
     Question(
@@ -69,27 +70,20 @@ class _MCQScreenState extends State<MCQScreen> {
     // Add more questions here
   ];
 
-  void _nextQuestion() {
-    setState(() {
-      _selectedOptionIndex = null;
-      debugPrint("_currentQuestionIndex=$_currentQuestionIndex");
-      debugPrint("_questions.length=${_questions.length}");
-      if (_currentQuestionIndex < _questions.length - 1) {
-        _currentQuestionIndex++;
-        Navigator.pop(context);
-      } else {
-        _currentQuestionIndex = 0;
-        Navigator.of(context)
-          ..pop()
-          ..push(
-            MaterialPageRoute(builder: (context) => const ResultScreen()),
-          );
-      }
-    });
+  void checkAnswer(selectedOptionIndex) {
+    if (selectedOptionIndex ==
+        _questions[_currentQuestionIndex].correctAnswerIndex) {
+      debugPrint("Correct");
+      correct = true;
+    } else {
+      debugPrint("Wrong");
+      correct = false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    //Step 08a
     Question currentQuestion = _questions[_currentQuestionIndex];
 
     return Scaffold(
@@ -103,6 +97,7 @@ class _MCQScreenState extends State<MCQScreen> {
                 height: 120,
                 width: double.infinity,
                 color: Colors.greenAccent,
+                //Step 08b
                 child: Center(
                     child: Text(
                   currentQuestion.question,
@@ -112,6 +107,7 @@ class _MCQScreenState extends State<MCQScreen> {
                 child: Container(
               color: Colors.amber,
               width: double.infinity,
+              //Paste the step 05 code below
               child: Column(
                 children: [
                   Expanded(
@@ -121,6 +117,7 @@ class _MCQScreenState extends State<MCQScreen> {
                           child: SizedBox(
                             height: double.infinity,
                             child: ElevatedButton(
+                              //Step 08d
                               onPressed: () {
                                 print(
                                     "Answer 0 clicked ${currentQuestion.options[0]}");
@@ -135,6 +132,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),
                               ),
+                              //Step 08c
                               child: Text(
                                 currentQuestion.options[0],
                                 textScaleFactor: 1.5,
@@ -237,6 +235,7 @@ class _MCQScreenState extends State<MCQScreen> {
                   onPressed: _selectedOptionIndex == null
                       ? null
                       : () {
+                          checkAnswer(_selectedOptionIndex);
                           print(
                               "Correct answer index is: ${currentQuestion.correctAnswerIndex}");
                           showModalBottomSheet(
@@ -246,18 +245,14 @@ class _MCQScreenState extends State<MCQScreen> {
                               builder: (BuildContext context) {
                                 return Container(
                                   height: 200,
-                                  color: currentQuestion.correctAnswerIndex ==
-                                          _selectedOptionIndex
-                                      ? Colors.green
-                                      : Colors.red,
+                                  color: correct ? Colors.green : Colors.red,
                                   child: Center(
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        currentQuestion.correctAnswerIndex ==
-                                                _selectedOptionIndex
+                                        correct
                                             ? const Text('Correct',
                                                 textScaleFactor: 1.5)
                                             : Text(
@@ -266,7 +261,23 @@ class _MCQScreenState extends State<MCQScreen> {
                                         ElevatedButton(
                                           child: const Text('Next Question'),
                                           onPressed: () {
-                                            _nextQuestion();
+                                            setState(() {
+                                              _selectedOptionIndex = null;
+                                              if (_currentQuestionIndex <
+                                                  _questions.length - 1) {
+                                                _currentQuestionIndex++;
+                                                Navigator.pop(context);
+                                              } else {
+                                                _currentQuestionIndex = 0;
+                                                Navigator.of(context)
+                                                  ..pop()
+                                                  ..push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const ResultScreen()),
+                                                  );
+                                              }
+                                            });
                                           },
                                         ),
                                       ],

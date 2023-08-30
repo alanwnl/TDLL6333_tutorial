@@ -69,25 +69,6 @@ class _MCQScreenState extends State<MCQScreen> {
     // Add more questions here
   ];
 
-  void _nextQuestion() {
-    setState(() {
-      _selectedOptionIndex = null;
-      debugPrint("_currentQuestionIndex=$_currentQuestionIndex");
-      debugPrint("_questions.length=${_questions.length}");
-      if (_currentQuestionIndex < _questions.length - 1) {
-        _currentQuestionIndex++;
-        Navigator.pop(context);
-      } else {
-        _currentQuestionIndex = 0;
-        Navigator.of(context)
-          ..pop()
-          ..push(
-            MaterialPageRoute(builder: (context) => const ResultScreen()),
-          );
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     //Step 08a
@@ -271,7 +252,25 @@ class _MCQScreenState extends State<MCQScreen> {
                                         ElevatedButton(
                                           child: const Text('Next Question'),
                                           onPressed: () {
-                                            _nextQuestion();
+                                            setState(() {
+                                              // Reset selected option index when moving to the next question
+                                              _selectedOptionIndex = null;
+                                              // Check if there are more questions in the list
+                                              if (_currentQuestionIndex < _questions.length - 1) {
+                                                // Move to the next question index
+                                                _currentQuestionIndex++;
+                                                // Close the modal bottom sheet
+                                                Navigator.pop(context);
+                                              } else {
+                                                // If all questions are answered, reset index and navigate to result page
+                                                _currentQuestionIndex = 0;
+                                                Navigator.of(context)
+                                                  ..pop()  // Close the current screen
+                                                  ..push(
+                                                    MaterialPageRoute(builder: (context) => const ResultScreen()),  // Navigate to the ResultPage
+                                                  );
+                                              }
+                                            });
                                           },
                                         ),
                                       ],

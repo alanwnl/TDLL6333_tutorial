@@ -220,8 +220,7 @@ class _MCQScreenState extends State<MCQScreen> {
                   onPressed: _selectedOptionIndex == null
                       ? null
                       : () {
-                          print(
-                              "Correct answer index is: ${currentQuestion.correctAnswerIndex}");
+                          print("Correct answer index is: ${currentQuestion.correctAnswerIndex}");
                           showModalBottomSheet(
                               context: context,
                               isDismissible: false,

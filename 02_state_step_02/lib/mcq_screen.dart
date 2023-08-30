@@ -54,25 +54,6 @@ class _MCQScreenState extends State<MCQScreen> {
     // Add more questions here
   ];
 
-  void _nextQuestion() {
-    setState(() {
-      _selectedOptionIndex = null;
-      debugPrint("_currentQuestionIndex=$_currentQuestionIndex");
-      debugPrint("_questions.length=${_questions.length}");
-      if (_currentQuestionIndex < _questions.length - 1) {
-        _currentQuestionIndex++;
-        Navigator.pop(context);
-      } else {
-        _currentQuestionIndex = 0;
-        Navigator.of(context)
-          ..pop()
-          ..push(
-            MaterialPageRoute(builder: (context) => const ResultScreen()),
-          );
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Question currentQuestion = _questions[_currentQuestionIndex];
@@ -222,7 +203,20 @@ class _MCQScreenState extends State<MCQScreen> {
                                         ElevatedButton(
                                           child: const Text('Next Question'),
                                           onPressed: () {
-                                            _nextQuestion();
+                                            setState(() {
+                                              _selectedOptionIndex = null;
+                                              if (_currentQuestionIndex < _questions.length - 1) {
+                                                _currentQuestionIndex++;
+                                                Navigator.pop(context);
+                                              } else {
+                                                _currentQuestionIndex = 0;
+                                                Navigator.of(context)
+                                                  ..pop()
+                                                  ..push(
+                                                    MaterialPageRoute(builder: (context) => const ResultScreen()),
+                                                  );
+                                              }
+                                            });
                                           },
                                         ),
                                       ],

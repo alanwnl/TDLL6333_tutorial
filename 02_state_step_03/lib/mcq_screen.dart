@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/question.dart';
 import 'package:my_app/result_screen.dart';
+import 'package:provider/provider.dart';
 
+import 'appstate.dart';
 import 'option_button_widget.dart';
 
 class MCQScreen extends StatefulWidget {
@@ -12,70 +14,11 @@ class MCQScreen extends StatefulWidget {
 }
 
 class _MCQScreenState extends State<MCQScreen> {
-  int? _selectedOptionIndex;
-  int _currentQuestionIndex = 0;
-
-  final List<Question> _questions = [
-    Question(
-      question: 'What is the capital of France?',
-      options: ['Paris', 'London', 'Berlin', 'Rome'],
-      correctAnswerIndex: 0,
-    ),
-    Question(
-      question: 'Who painted the Mona Lisa?',
-      options: [
-        'Leonardo da Vinci',
-        'Pablo Picasso',
-        'Vincent van Gogh',
-        'Michelangelo'
-      ],
-      correctAnswerIndex: 0,
-    ),
-    Question(
-      question: 'Which country is the Statue of Liberty located in?',
-      options: ['France', 'United States', 'Italy', 'Greece'],
-      correctAnswerIndex: 1,
-    ),
-    Question(
-      question: 'What is the highest mountain in the world?',
-      options: ['Mount Everest', 'K2', 'Lhotse', 'Kangchenjunga'],
-      correctAnswerIndex: 0,
-    ),
-    Question(
-      question: 'What is the name of the largest ocean in the world?',
-      options: [
-        'Pacific Ocean',
-        'Atlantic Ocean',
-        'Indian Ocean',
-        'Arctic Ocean'
-      ],
-      correctAnswerIndex: 0,
-    )
-    // Add more questions here
-  ];
-
-  void _nextQuestion() {
-    setState(() {
-      _selectedOptionIndex = null;
-      debugPrint("_currentQuestionIndex=$_currentQuestionIndex");
-      debugPrint("_questions.length=${_questions.length}");
-      if (_currentQuestionIndex < _questions.length - 1) {
-        _currentQuestionIndex++;
-        Navigator.pop(context);
-      } else {
-        _currentQuestionIndex = 0;
-        Navigator.of(context)
-          ..pop()
-          ..push(
-            MaterialPageRoute(builder: (context) => const ResultScreen()),
-          );
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    Question currentQuestion = _questions[_currentQuestionIndex];
+    final appState = Provider.of<AppState>(context);
+    Question currentQuestion =
+        appState.questions[appState.currentQuestionIndex];
 
     return Scaffold(
       appBar: AppBar(
@@ -102,52 +45,25 @@ class _MCQScreenState extends State<MCQScreen> {
                   Expanded(
                     child: Row(
                       children: [
-                        ////////////Old Code///////
-                        // Expanded(
-                        //   child: SizedBox(
-                        //     height: double.infinity,
-                        //     child: ElevatedButton(
-                        //       onPressed: () {
-                        //         print(
-                        //             "Answer 0 clicked ${currentQuestion.options[0]}");
-                        //         setState(() {
-                        //           _selectedOptionIndex = 0;
-                        //         });
-                        //       },
-                        //       style: ElevatedButton.styleFrom(
-                        //         backgroundColor: _selectedOptionIndex == 0
-                        //             ? Colors.lightBlue[50]
-                        //             : Colors.white,
-                        //         shape: RoundedRectangleBorder(
-                        //             borderRadius: BorderRadius.circular(20.0)),
-                        //       ),
-                        //       child: Text(
-                        //         currentQuestion.options[0],
-                        //         textScaleFactor: 1.5,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        ////////////////////////////
                         OptionButton(
                           text: currentQuestion.options[0],
-                          isSelected: _selectedOptionIndex == 0,
+                          isSelected: appState.selectedOptionIndex == 0,
                           onPressed: () {
                             print(
                                 "Answer 0 clicked ${currentQuestion.options[0]}");
                             setState(() {
-                              _selectedOptionIndex = 0;
+                              appState.selectedOptionIndex = 0;
                             });
                           },
                         ),
                         OptionButton(
                           text: currentQuestion.options[1],
-                          isSelected: _selectedOptionIndex == 1,
+                          isSelected: appState.selectedOptionIndex == 1,
                           onPressed: () {
                             print(
                                 "Answer 0 clicked ${currentQuestion.options[1]}");
                             setState(() {
-                              _selectedOptionIndex = 1;
+                              appState.selectedOptionIndex = 1;
                             });
                           },
                         ),
@@ -159,23 +75,23 @@ class _MCQScreenState extends State<MCQScreen> {
                       children: [
                         OptionButton(
                           text: currentQuestion.options[2],
-                          isSelected: _selectedOptionIndex == 2,
+                          isSelected: appState.selectedOptionIndex == 2,
                           onPressed: () {
                             print(
                                 "Answer 0 clicked ${currentQuestion.options[2]}");
                             setState(() {
-                              _selectedOptionIndex = 2;
+                              appState.selectedOptionIndex = 2;
                             });
                           },
                         ),
                         OptionButton(
                           text: currentQuestion.options[3],
-                          isSelected: _selectedOptionIndex == 3,
+                          isSelected: appState.selectedOptionIndex == 3,
                           onPressed: () {
                             print(
                                 "Answer 0 clicked ${currentQuestion.options[3]}");
                             setState(() {
-                              _selectedOptionIndex = 3;
+                              appState.selectedOptionIndex = 3;
                             });
                           },
                         ),
@@ -190,7 +106,7 @@ class _MCQScreenState extends State<MCQScreen> {
                 width: double.infinity,
                 color: Colors.greenAccent,
                 child: ElevatedButton(
-                  onPressed: _selectedOptionIndex == null
+                  onPressed: appState.selectedOptionIndex == null
                       ? null
                       : () {
                           print(
@@ -203,7 +119,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 return Container(
                                   height: 200,
                                   color: currentQuestion.correctAnswerIndex ==
-                                          _selectedOptionIndex
+                                          appState.selectedOptionIndex
                                       ? Colors.green
                                       : Colors.red,
                                   child: Center(
@@ -213,7 +129,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         currentQuestion.correctAnswerIndex ==
-                                                _selectedOptionIndex
+                                                appState.selectedOptionIndex
                                             ? const Text('Correct',
                                                 textScaleFactor: 1.5)
                                             : Text(
@@ -222,7 +138,27 @@ class _MCQScreenState extends State<MCQScreen> {
                                         ElevatedButton(
                                           child: const Text('Next Question'),
                                           onPressed: () {
-                                            _nextQuestion();
+                                            setState(() {
+                                              appState.selectedOptionIndex =
+                                                  null;
+                                              if (appState
+                                                      .currentQuestionIndex <
+                                                  appState.questions.length -
+                                                      1) {
+                                                appState.currentQuestionIndex++;
+                                                Navigator.pop(context);
+                                              } else {
+                                                appState.currentQuestionIndex =
+                                                    0;
+                                                Navigator.of(context)
+                                                  ..pop()
+                                                  ..push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const ResultScreen()),
+                                                  );
+                                              }
+                                            });
                                           },
                                         ),
                                       ],

@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'appstate.dart';
 import 'mcq_screen.dart';
 
-void main() => runApp(MCQApp());
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppState(),
+      child: MCQApp(),
+    ),
+  );
+}
 
 class MCQApp extends StatelessWidget {
   @override
