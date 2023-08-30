@@ -241,9 +241,9 @@ class _MCQScreenState extends State<MCQScreen> {
                                       children: <Widget>[
                                         currentQuestion.correctAnswerIndex ==
                                                 _selectedOptionIndex
-                                            ? const Text('Correct')
+                                            ? const Text('Correct',textScaleFactor: 1.5)
                                             : Text(
-                                                'The correct answer is:${currentQuestion.options[currentQuestion.correctAnswerIndex]}'),
+                                                'The correct answer is:${currentQuestion.options[currentQuestion.correctAnswerIndex]}',textScaleFactor: 1.5),
                                         ElevatedButton(
                                           child: const Text('Next Question'),
                                           onPressed: () {},

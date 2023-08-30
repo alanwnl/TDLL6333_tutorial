@@ -18,13 +18,13 @@ class _ResultPageState extends State<ResultPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("End of task"),
+              const Text("End of task",textScaleFactor: 1.5),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Main'),
+                child: const Text('Main',textScaleFactor: 1.5),
               ),
             ],
           ),
