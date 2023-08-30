@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'result.dart';
+import 'result_screen.dart';
 
 import 'question.dart';
 
@@ -82,7 +82,7 @@ class _MCQScreenState extends State<MCQScreen> {
         Navigator.of(context)
           ..pop()
           ..push(
-            MaterialPageRoute(builder: (context) => const ResultPage()),
+            MaterialPageRoute(builder: (context) => const ResultScreen()),
           );
       }
     });
