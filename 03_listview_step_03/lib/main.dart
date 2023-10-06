@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/questions_screen.dart';
+import 'package:my_app/tts_play_state.dart';
 import 'package:provider/provider.dart';
 
 import 'appstate.dart';
@@ -7,8 +8,11 @@ import 'mcq_screen.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppState(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppState()),
+        ChangeNotifierProvider(create: (_) => TtsPlayState()),
+      ],
       child: MCQApp(),
     ),
   );
