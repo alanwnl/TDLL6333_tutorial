@@ -32,7 +32,8 @@ class _ResultScreenState extends State<ResultScreen> {
                   appState.resetQuiz();
                   //Change this from routing to MCQScreen
                   //Updated it to the newly created QuestionScreen
-                  Navigator.of(context).pushReplacement(
+                  Navigator.push(
+                    context,
                     MaterialPageRoute(
                         builder: (context) => const TopicsScreen()),
                   );
