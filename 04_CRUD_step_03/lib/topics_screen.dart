@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/questions_screen.dart';
+import 'package:my_app/topic.dart';
 import 'package:provider/provider.dart';
 
 import 'appstate.dart';
@@ -30,33 +31,33 @@ class _TopicsScreenState extends State<TopicsScreen> {
       body: SafeArea(
           child: appState.topics.isNotEmpty
               ? ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: appState.topics.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Text(appState.topics[index].topicName),
-                      onTap: () {
-                        appState.questionsFromIndex(index);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const QuestionScreen()),
-                        );
-                      },
+              padding: const EdgeInsets.all(8),
+              itemCount: appState.topics.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(appState.topics[index].topicName),
+                  onTap: () {
+                    appState.questionsFromIndex(index);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const QuestionScreen()),
                     );
-                  })
+                  },
+                );
+              })
               : const Center(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Click + button to create a new topic',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ))),
-      floatingActionButton: FloatingActionButton(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Click + button to create a new topic',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ))),
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           final formKey = GlobalKey<FormState>();
           final newTopicController = TextEditingController();
@@ -86,14 +87,16 @@ class _TopicsScreenState extends State<TopicsScreen> {
               actions: [
                 TextButton(
                   child: const Text('Create'),
-                  onPressed: () {},
+                  onPressed: () {
+                  },
                 ),
               ],
             ),
           );
         },
         backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
+        label: const Text('Create Topic'),
+        icon: const Icon(Icons.add),
       ),
     );
   }

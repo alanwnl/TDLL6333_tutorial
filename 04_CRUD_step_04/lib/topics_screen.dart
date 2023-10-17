@@ -57,7 +57,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                     ),
                   ],
                 ))),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           final formKey = GlobalKey<FormState>();
           final newTopicController = TextEditingController();
@@ -101,7 +101,8 @@ class _TopicsScreenState extends State<TopicsScreen> {
           );
         },
         backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
+        label: const Text('Create Topic'),
+        icon: const Icon(Icons.add),
       ),
     );
   }
