@@ -21,7 +21,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
         title: const Text("Questions"),
         // Temporary remove Back Button on AppBar
         // Need to remove this later
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
       ),
       //Check to see if the question in AppState is not empty
       body: appState.questions.isNotEmpty

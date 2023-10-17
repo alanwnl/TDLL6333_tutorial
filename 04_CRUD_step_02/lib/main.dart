@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/questions_screen.dart';
+import 'package:my_app/topics_screen.dart';
 import 'package:my_app/tts_play_state.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,7 @@ class MCQApp extends StatelessWidget {
       ),
       //Change this from routing to MCQScreen
       //Updated it to the newly created QuestionScreen
-      home: const QuestionScreen(),
+      home: const TopicsScreen(),
     );
   }
 }
