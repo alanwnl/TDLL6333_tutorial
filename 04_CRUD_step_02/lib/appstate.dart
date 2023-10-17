@@ -78,11 +78,7 @@ class AppState extends ChangeNotifier {
       ],
     ),
   ];
-
-  void questionsFromIndex(int index) {
-    questions = topics[index].questions!;
-  }
-
+  
   void checkAnswer() {
     if (selectedOptionIndex ==
         questions[currentQuestionIndex].correctAnswerIndex) {
