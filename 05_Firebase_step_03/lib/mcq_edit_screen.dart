@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/question.dart';
+import 'package:my_app/topic.dart';
 import 'package:provider/provider.dart';
 
 import 'appstate.dart';
 
 class MCQEditScreen extends StatefulWidget {
+  final Topic topic;
   final Question? question;
-  MCQEditScreen({super.key, this.question});
+  MCQEditScreen({super.key, this.question, required this.topic});
 
   @override
   State<MCQEditScreen> createState() => _MCQEditScreenState();
@@ -45,7 +47,7 @@ class _MCQEditScreenState extends State<MCQEditScreen> {
                   icon: const Icon(Icons.delete),
                   tooltip: 'Delete',
                   onPressed: () {
-                    appState.removeQuestion();
+                    appState.removeQuestion(widget.question!, widget.topic);
                     Navigator.pop(context);
                   },
                 ),
@@ -121,9 +123,10 @@ class _MCQEditScreenState extends State<MCQEditScreen> {
                           correctAnswerIndex: correctAnswerIndex,
                         );
                         if (widget.question == null) {
-                          appState.addQuestion(newQuestion);
+                          appState.addQuestion(newQuestion, widget.topic);
                         } else {
-                          appState.updateQuestion(newQuestion);
+                          appState.updateQuestion(
+                              widget.question!, newQuestion, widget.topic);
                         }
 
                         questionController.clear();

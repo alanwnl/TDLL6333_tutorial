@@ -5,6 +5,7 @@ import 'question.dart';
 class Topic {
   String? username;
   String topicName;
+  String? topicId;
   List<Question>? questions;
   Timestamp? createdAt;
   DocumentReference? author;
@@ -13,6 +14,7 @@ class Topic {
   Topic({
     this.username,
     required this.topicName,
+    this.topicId,
     this.questions,
     this.author,
     this.createdAt,
@@ -22,6 +24,7 @@ class Topic {
     final data = snapshot.data() as Map<String, dynamic>?;
     return Topic(
       username: data?["username"],
+      topicId: snapshot.id,
       topicName: data?['topicName'] as String? ?? '',
       author: data?['author'] as DocumentReference?,
       createdAt: data?['createdAt'] as Timestamp? ?? Timestamp(0, 0),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/questions_edit_screen.dart';
+import 'package:my_app/topic.dart';
 import 'package:provider/provider.dart';
 
 import 'appstate.dart';
@@ -7,7 +8,10 @@ import 'flashcard_screen.dart';
 import 'mcq_screen.dart';
 
 class QuestionScreen extends StatefulWidget {
-  const QuestionScreen({super.key});
+  final String topicDocumentId;
+  final Topic topic;
+  const QuestionScreen(
+      {super.key, required this.topicDocumentId, required this.topic});
 
   @override
   State<QuestionScreen> createState() => _QuestionScreenState();
@@ -26,8 +30,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      const QuestionsEditScreen(),
+                  builder: (context) => QuestionsEditScreen(
+                    topic: widget.topic,
+                  ),
                 ),
               );
             },

@@ -14,7 +14,8 @@ class AppState extends ChangeNotifier {
   int? selectedTopicIndex;
   int? selectedQuestionIndex;
 
-  List<Question> questions = [];
+  List<Question> _questions = [];
+  List<Question> get questions => _questions;
 
   // List<Topic> topics = [
   //   Topic(
@@ -117,7 +118,7 @@ class AppState extends ChangeNotifier {
   }
 
   void questionsFromIndex(int index) {
-    questions = topics[index].questions!;
+    _questions = topics[index].questions!;
   }
 
   void checkAnswer() {
@@ -151,36 +152,114 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addTopic(Topic topic) {
-    topics.add(topic);
-    notifyListeners();
+
+  Future<void> addTopic(Topic topic) async {
+    try {
+      await FirebaseFirestore.instance.collection('topics').add({
+        'createdAt': DateTime.now(),
+        // 'userId': currentUser!.uid,
+        // 'author': userDetails.username,
+        // 'userId': currentUser!.uid,
+        'topicName': topic.topicName,
+        'questions': [],
+      });
+      debugPrint('Topic ${topic.topicName} added to Firestore.');
+    } catch (error) {
+      print('Error adding topic to Firestore: $error');
+    }
   }
 
-  void deleteTopic() {
-    topics.removeAt(selectedTopicIndex!);
-    notifyListeners();
+
+  Future<void> deleteTopic(Topic topic) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('topics')
+          .doc(topic.topicId)
+          .delete()
+          .then((value) {
+        _topics.remove(topic);
+        debugPrint('Topic ${topic.topicName} deleted from Firestore.');
+        notifyListeners();
+      });
+    } catch (error) {
+      print('Error deleting topic from Firestore: $error');
+    }
   }
 
-  void updateTopicName(String newTopicName) {
-    topics[selectedTopicIndex!].topicName = newTopicName;
-    notifyListeners();
+
+  Future<void> updateTopicName(Topic topic, String newTopicName) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('topics')
+          .doc(topic.topicId)
+          .update({'topicName': newTopicName});
+    } catch (error) {
+      print('Error updating topic name: $error');
+    }
   }
 
-  void addQuestion(Question newQuestion) {
-    questions.add(newQuestion);
-    topics[selectedTopicIndex!].questions = questions;
-    notifyListeners();
+  Future<void> addQuestion(Question question, Topic topic) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('topics')
+          .doc(topic.topicId)
+          .update({
+        'questions': FieldValue.arrayUnion([question.toMap()])
+      }).then((value) {
+        print('Data fetching completed.');
+        _questions.add(question);
+        notifyListeners();
+      });
+      debugPrint('Question added to topic ${topic.topicName} in Firestore.');
+    } catch (error) {
+      print('Error adding question to topic in Firestore: $error');
+    }
   }
 
-  void updateQuestion(Question updateQuestion) {
-    questions[selectedQuestionIndex!] = updateQuestion;
-    topics[selectedTopicIndex!].questions = questions;
-    notifyListeners();
+  Future<void> removeQuestion(Question question, Topic topic) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('topics')
+          .doc(topic.topicId)
+          .update({
+        'questions': FieldValue.arrayRemove([question.toMap()])
+      }).then((value) {
+        _questions.remove(question);
+        notifyListeners();
+      });
+      debugPrint(
+          'Question removed from topic ${topic.topicName} in Firestore.');
+    } catch (error) {
+      print('Error removing question from topic in Firestore: $error');
+    }
   }
 
-  void removeQuestion() {
-    questions.removeAt(selectedQuestionIndex!);
-    topics[selectedTopicIndex!].questions = questions;
-    notifyListeners();
+  Future<void> updateQuestion(
+      Question oldQuestion, Question newQuestion, Topic topic) async {
+    try {
+      final oldQuestionIndex = _questions.indexOf(oldQuestion);
+      if (oldQuestionIndex != -1) {
+        final updatedQuestions = List<Question>.from(_questions);
+        updatedQuestions[oldQuestionIndex] = newQuestion;
+
+        // Convert questions to a list of maps
+        final questionsAsMaps = updatedQuestions.map((q) => q.toMap()).toList();
+
+        // Update questions in Firestore
+        await FirebaseFirestore.instance
+            .collection('topics')
+            .doc(topic.topicId)
+            .update({'questions': questionsAsMaps});
+
+        // Update local state
+        _questions = updatedQuestions;
+        notifyListeners();
+
+        debugPrint(
+            'Question updated in topic ${topic.topicName} in Firestore.');
+      }
+    } catch (error) {
+      print('Error updating question in topic in Firestore: $error');
+    }
   }
 }

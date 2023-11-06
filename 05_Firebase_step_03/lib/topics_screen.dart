@@ -42,7 +42,10 @@ class _TopicsScreenState extends State<TopicsScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  const QuestionScreen()),
+                              builder: (context) => QuestionScreen(
+                                  topicDocumentId:
+                                      appState.topics[index].topicId!,
+                                  topic: appState.topics[index])),
                         );
                       },
                     );
@@ -91,8 +94,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       appState.addTopic(Topic(
-                          topicName: newTopicController.text,
-                          questions: []));
+                          topicName: newTopicController.text, questions: []));
                       Navigator.pop(context);
                     }
                   },

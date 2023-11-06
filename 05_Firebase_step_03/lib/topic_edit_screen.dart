@@ -36,7 +36,7 @@ class _TopicEditScreenState extends State<TopicEditScreen> {
             ),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                appState.updateTopicName(
+                appState.updateTopicName(widget.topic,
                     topicNameController.text);
                 Navigator.pop(context);
               }
@@ -79,7 +79,7 @@ class _TopicEditScreenState extends State<TopicEditScreen> {
                         backgroundColor: Colors.pink,
                       ),
                       onPressed: () {
-                        appState.deleteTopic();
+                        appState.deleteTopic(widget.topic);
                         Navigator.popUntil(
                             context, (Route<dynamic> route) => route.isFirst);
                       },

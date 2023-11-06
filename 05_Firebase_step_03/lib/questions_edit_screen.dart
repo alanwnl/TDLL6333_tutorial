@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/mcq_edit_screen.dart';
+import 'package:my_app/topic.dart';
 import 'package:my_app/topic_edit_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'appstate.dart';
 
 class QuestionsEditScreen extends StatelessWidget {
-  const QuestionsEditScreen({super.key});
+  final String? topicDocumentId;
+  final Topic topic;
+  const QuestionsEditScreen(
+      {super.key, this.topicDocumentId, required this.topic});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +48,10 @@ class QuestionsEditScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            MCQEditScreen(question: appState.questions[index]),
+                        builder: (context) => MCQEditScreen(
+                          question: appState.questions[index],
+                          topic: topic,
+                        ),
                       ),
                     );
                   },
@@ -55,7 +61,9 @@ class QuestionsEditScreen extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute<void>(
               builder: (BuildContext context) {
-                return MCQEditScreen();
+                return MCQEditScreen(
+                  topic: topic,
+                );
               },
               fullscreenDialog: true));
         },
