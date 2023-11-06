@@ -28,8 +28,6 @@ class MCQApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      //Change this from routing to MCQScreen
-      //Updated it to the newly created QuestionScreen
       home: const TopicsScreen(),
     );
   }

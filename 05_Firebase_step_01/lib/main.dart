@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'appstate.dart';
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -32,8 +32,6 @@ class MCQApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      //Change this from routing to MCQScreen
-      //Updated it to the newly created QuestionScreen
       home: const TopicsScreen(),
     );
   }
